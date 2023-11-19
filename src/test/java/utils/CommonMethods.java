@@ -5,7 +5,6 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.PageInitializers;
 
@@ -45,12 +44,13 @@ public class CommonMethods extends PageInitializers {
     }
 
     public static WebDriverWait getWait(){
-        WebDriverWait wait = new WebDriverWait(driver, Constants.EXPLICIT_WAIT);
+        WebDriverWait wait = new WebDriverWait(driver,Constants.IMPLICIT_WAIT);
         return wait;
     }
 
     public static void waitForClickability(WebElement element){
-        getWait().until(ExpectedConditions.elementToBeClickable(element));
+        driver.switchTo().defaultContent();
+//        getWait().until(ExpectedConditions.elementToBeClickable(element));
     }
 
     public static void click(WebElement element){
