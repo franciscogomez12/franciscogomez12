@@ -5,13 +5,16 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.PageInitializers;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 public class CommonMethods extends PageInitializers {
@@ -26,16 +29,21 @@ public class CommonMethods extends PageInitializers {
                 driver = new ChromeDriver();
                 break;
             case "edge":
+                EdgeOptions options = new EdgeOptions();
+                options.setCapability("ms:edgeOptions", new HashMap<String, Object>() {{
+                    put("args", Arrays.asList("--guest"));
+                }});
                 WebDriverManager.edgedriver().setup();
-                driver = new EdgeDriver();
+                driver = new EdgeDriver(options);
                 break;
             default:
                 throw new RuntimeException("Invalid browser name");
         }
+
         driver.manage().window().maximize();
         driver.get(ConfigReader.getPropertyValue("url"));
         driver.manage().timeouts().implicitlyWait(Constants.IMPLICIT_WAIT, TimeUnit.SECONDS);
-        intializePageObjects();
+
     }
 
     public static void sendText(WebElement element, String textToSend){

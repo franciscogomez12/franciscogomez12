@@ -11,6 +11,7 @@ public class Hooks extends CommonMethods {
     @Before
     public void start(){
         openBrowserAndLauchApplication();
+        intializePageObjects();
     }
 
     @After
